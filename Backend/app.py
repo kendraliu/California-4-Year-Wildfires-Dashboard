@@ -3,15 +3,15 @@ import os
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
-from sqlalchemy import create_engine, func, inspect
+from sqlalchemy import create_engine, func, inspect, MetaData, Table
 from flask import Flask, jsonify
 
 cwd = os.getcwd()
 print(cwd)
 
 engine = create_engine("sqlite:///Backend/WildfiresDB.db")
-Base = automap_base()
-Base.prepare(autoload_with=engine)
+
+metadata = MetaData(bind=engine)
 
 inspector = inspect(engine)
 print(inspector.get_table_names())
@@ -23,7 +23,14 @@ for c in columns:
     columnNames.append("wildfire." + c["name"])
 print(columnNames)
 
+wildfires = Table("fire_data", metadata, autoload=True, autoload_with=engine)
+print(wildfires)
+
+"""" DOES NOT WORK FOR SOME REASON
+Base = automap_base()
+Base.prepare(autoload_with=engine)
 wildfires = Base.classes.fire_data
+table_names = list(Base.classes.keys())"""
 
 
 """app = Flask(__name__)
