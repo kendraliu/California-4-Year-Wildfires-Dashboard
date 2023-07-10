@@ -24,7 +24,6 @@ for c in columns:
 print(columnNames)
 
 wildfires = Table("fire_data", metadata, autoload=True, autoload_with=engine)
-#print(wildfires)
 print(engine.execute("select DISCOVERY_DATE from fire_data").first())
 
 """" DOES NOT WORK FOR SOME REASON
@@ -47,8 +46,8 @@ def cawildfires():
     session = Session(engine)
     sel = select([wildfires.c.COUNTY, wildfires.c.LATITUDE, wildfires.c.LONGITUDE, 
                   wildfires.c.FIRE_NAME, wildfires.c.FIRE_SIZE, wildfires.c.FIRE_SIZE_CLASS, wildfires.c.FIRE_YEAR, 
-                  func.strftime("%Y-%m-%d", wildfires.c.DISCOVERY_DATE).label("formatted_date"), 
-                  func.strftime("%Y-%m-%d", wildfires.c.CONTAIN_DATE).label("formatted_date2"), 
+                  wildfires.c.DISCOVERY_DATE, 
+                  wildfires.c.CONTAIN_DATE, 
                   wildfires.c.CAUSE_CLASSIFICATION, wildfires.c.CAUSE])
     wildfireData = session.execute(sel).fetchall()
     session.close()
@@ -62,8 +61,8 @@ def cawildfires():
         dict["FIRE_SIZE"] = row.FIRE_SIZE
         dict["FIRE_SIZE_CLASS"] = row.FIRE_SIZE_CLASS
         dict["FIRE_YEAR"] = row.FIRE_YEAR
-        dict["DISCOVERY_DATE"] = row.formatted_date
-        dict["CONTAIN_DATE"] = row.formatted_date2
+        dict["DISCOVERY_DATE"] = row.DISCOVERY_DATE
+        dict["CONTAIN_DATE"] = row.CONTAIN_DATE
         dict["CAUSE_CLASSIFICATION"] = row.CAUSE_CLASSIFICATION
         dict["CAUSE"] = row.CAUSE
         api.append(dict)
