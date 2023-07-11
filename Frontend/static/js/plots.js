@@ -1,7 +1,9 @@
-let wildfireApi = "http://127.0.0.1:5000/api/cawildfires17-20"
+//let wildfireApi = "http://127.0.0.1:5000/api/cawildfires17-20"
 
+//console.log(navigator.userAgent);
 //console.log(new Date(Date.parse("2017-10-13")).toLocaleString())
 
+/*
 d3.json(wildfireApi).then(function(data){
     let newData = [];
     let markers = L.markerClusterGroup();
@@ -22,7 +24,7 @@ d3.json(wildfireApi).then(function(data){
     
     myMap.addLayer(markers);
 
-});
+});*/
 
 let myMap = L.map("map", {
     center: [36.78, 119.42],
@@ -32,3 +34,4 @@ let myMap = L.map("map", {
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(myMap);
+
