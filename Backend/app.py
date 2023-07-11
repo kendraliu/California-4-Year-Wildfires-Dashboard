@@ -4,6 +4,7 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func, inspect, MetaData, Table, select
 from flask import Flask, jsonify
+from flask_cors import CORS
 from datetime import datetime
 
 cwd = os.getcwd()
@@ -19,7 +20,7 @@ inspector = inspect(engine)
 columnNames = []
 columns = inspector.get_columns("fire_data")
 for c in columns:
-    #print(c["name"], c["type"])
+    print(c["name"], c["type"])
     columnNames.append("wildfires.c." + c["name"])
 print(columnNames)
 
@@ -34,6 +35,7 @@ table_names = list(Base.classes.keys())"""
 
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/")
 def home():
