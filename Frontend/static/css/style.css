@@ -3,10 +3,11 @@ body {
     margin: 0;
   }
   
-  #map,
+  #wildfireNumbersPlot,
+  #wildfireHeatMaps,
   body,
   html {
-    height: 100%;
-    width: 100%;
+    height: 80%;
+    width: 80%;
   }
   
