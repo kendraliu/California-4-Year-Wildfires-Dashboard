@@ -36,19 +36,18 @@ d3.json(wildfireApi).then(function(data){
     for(let i = 0; i < data.length; i++) {
         //convert dates
         let oldRecord = data[i];
-        //1st plot
         //console.log(oldRecord["DISCOVERY_DATE"].slice(0, 4) - oldRecord["DISCOVERY_DATE"].slice(4, 6)-oldRecord["DISCOVERY_DATE"].slice(6, 8))
         oldRecord["DISCOVERY_DATE_FORMATTED"] = new Date(Date.parse(`${oldRecord["DISCOVERY_DATE"].slice(0, 4)}- ${oldRecord["DISCOVERY_DATE"].slice(4, 6)}-${oldRecord["DISCOVERY_DATE"].slice(6, 8)}`))
         oldRecord["CONTAIN_DATE_FORMATTED"] = new Date(Date.parse(`${oldRecord["CONTAIN_DATE"].slice(0, 4)}- ${oldRecord["CONTAIN_DATE"].slice(4, 6)}-${oldRecord["CONTAIN_DATE"].slice(6, 8)}`))
         newData.push(oldRecord);
 
-        //markers
-        let lon = data[i].LONGITUDE;
+        //1st plot markers
         let lat = data[i].LATITUDE;
+        let lon = data[i].LONGITUDE;
         //console.log(lat, lon, data[i].FIRE_NAME)
         markers.addLayer(L.marker([lat, lon]).bindPopup(data[i].FIRE_NAME));
 
-        //2nd plot
+        //2nd plot heat map
         heatArray.push([data[i].LATITUDE, data[i].LONGITUDE, data[i].FREQUENCY]);
     }
     //console.log(data)
