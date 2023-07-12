@@ -1,13 +1,13 @@
 let wildfireApi = "http://127.0.0.1:5000/api/cawildfires17-20"
 
 //console.log(new Date(Date.parse("2017-10-13")).toLocaleString())
-
+/*
 let wildfireNumbers = L.map("wildfireNumbersPlot", {
     center: [37, -119.42],
     zoom: 5.5, 
     maxZoom: 30
     //layer: layer(heatgroup)
-});
+});*/
 let wildfireHeatMap = L.map("wildfireHeatMaps", {
     center: [37, -119.42],
     zoom: 5.5,
@@ -24,7 +24,7 @@ function tile(map){
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 }
-tile(wildfireNumbers)
+//tile(wildfireNumbers)
 tile(wildfireHeatMap)
 tile(wildfireSeverity)
 
@@ -70,14 +70,17 @@ function operation(link) {d3.json(link).then(function(data){
         heatArraySeverity.push([data[i].LATITUDE, data[i].LONGITUDE, data[i].FIRE_SIZE]);
 
         
-    
+        if (data[i].FIRE_SIZE_CLASS == "G"){
+        L.marker([lat, lon], {opacity: 1}).bindPopup(`${data[i].COUNTY}<hr>Burned: ${parseFloat(data[i].FIRE_SIZE)} acres<br>Severity: ${data[i].FIRE_SIZE_CLASS} (highest)<br>Wildfire: ${toTitleCase(data[i].FIRE_NAME)}`).addTo(wildfireSeverity)
+        }
     }
     console.log(data)
     //console.log(latArray)
     //console.log(newData)
 
     //add to map
-    wildfireNumbers.addLayer(markersNumbers);
+    
+    //wildfireNumbers.addLayer(markersNumbers);
     L.heatLayer(heatArrayNumbers, {
         radius: 6,
         blur: 1,
@@ -183,13 +186,9 @@ function handleMouseMove(event) {
 
 
 
-/*
-function layer(layer){
-    temp = []
-    temp.push(layer)
-    return temp
-}
-*/
-
-  
+function toTitleCase(str) {
+    return str.replace(/\b\w+/g, function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  }
 
