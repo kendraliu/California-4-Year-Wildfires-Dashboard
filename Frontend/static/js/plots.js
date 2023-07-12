@@ -30,15 +30,8 @@ tile(wildfireSeverity)
 
 operation(wildfireApi)
 
-
-
-/*
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(wildfireNumbers);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(wildfireHeatMap);*/
+let gWildfires = [];
+let gWildfiresGrp = L.layerGroup(gWildfires);
 
 function operation(link) {d3.json(link).then(function(data){
     let newData = [];
@@ -71,7 +64,7 @@ function operation(link) {d3.json(link).then(function(data){
 
         
         if (data[i].FIRE_SIZE_CLASS == "G"){
-        L.marker([lat, lon], {opacity: 1}).bindPopup(`${data[i].COUNTY}<hr>Burned: ${parseFloat(data[i].FIRE_SIZE)} acres<br>Severity: ${data[i].FIRE_SIZE_CLASS} (highest)<br>Wildfire: ${toTitleCase(data[i].FIRE_NAME)}`).addTo(wildfireSeverity)
+            gWildfires.push(L.marker([lat, lon], {opacity: 0.8}).bindPopup(`${data[i].COUNTY}<hr>Burned: ${parseFloat(data[i].FIRE_SIZE)} acres<br>Severity: ${data[i].FIRE_SIZE_CLASS} (highest)<br>Wildfire: ${toTitleCase(data[i].FIRE_NAME)}`).addTo(wildfireSeverity))
         }
     }
     console.log(data)
@@ -98,7 +91,7 @@ function operation(link) {d3.json(link).then(function(data){
     //let heatOverLyr = {Numbers: markersHeatMap}
     //L.control.layers(null, heatOverLyr).addTo(wildfireHeatMap)
     L.control.Legend({
-        title: "  Options",
+        title: "Display",
         position: "topright",
         opacity: 0.5,
         legends: [{label: "Numbers", layers: markersHeatMap,
@@ -107,6 +100,16 @@ function operation(link) {d3.json(link).then(function(data){
                 inactive: true
     }]
     }).addTo(wildfireHeatMap)
+    L.control.Legend({
+        title: "Display",
+        position: "topright",
+        opacity: 0.5,
+        legends: [{label: "G class wildfires", layers: gWildfires,
+                type: "image",
+                url: "static/image/fireIcon.svg",
+                inactive: false
+    }]
+    }).addTo(wildfireSeverity)
 /*
     severityHeat.on("mousemove", function(event) {
         console.log(event.latlng.lat, data[index].LATITUDE)

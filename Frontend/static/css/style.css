@@ -12,10 +12,14 @@ html {
 }
 
 #wildfireHeatMaps,
-#wildfireSeverityMap,
 body,
 html {
-    height: 85%;
-    width: 90%;
+    height: 90%;
+    width: 80%;
+}
+
+#wildfireSeverityMap{
+    height: 100%;
+    width: 100%;
 }
   
