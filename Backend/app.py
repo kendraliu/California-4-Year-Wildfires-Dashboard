@@ -33,7 +33,6 @@ Base.prepare(autoload_with=engine)
 wildfires = Base.classes.fire_data
 table_names = list(Base.classes.keys())"""
 
-
 app = Flask(__name__)
 CORS(app)
 
@@ -50,7 +49,7 @@ def cawildfires():
                   wildfires.c.FIRE_NAME, wildfires.c.FIRE_SIZE, wildfires.c.FIRE_SIZE_CLASS, wildfires.c.FIRE_YEAR, 
                   wildfires.c.DISCOVERY_DATE, 
                   wildfires.c.CONTAIN_DATE, 
-                  wildfires.c.CAUSE_CLASSIFICATION, wildfires.c.CAUSE])
+                  wildfires.c.CAUSE_CLASSIFICATION, wildfires.c.CAUSE, wildfires.c.FREQUENCY])
     wildfireData = session.execute(sel).fetchall()
     session.close()
     api = []
@@ -67,6 +66,7 @@ def cawildfires():
         dict["CONTAIN_DATE"] = row.CONTAIN_DATE
         dict["CAUSE_CLASSIFICATION"] = row.CAUSE_CLASSIFICATION
         dict["CAUSE"] = row.CAUSE
+        dict["FREQUENCY"] = row.FREQUENCY
         api.append(dict)
     #print(api)
     return jsonify(api)
