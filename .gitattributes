@@ -1,1 +1,2 @@
 *.sqlite filter=lfs diff=lfs merge=lfs -text
+CaliWildfires.geojson filter=lfs diff=lfs merge=lfs -text
