@@ -1,13 +1,8 @@
 body,
-.map-popup {
-    padding: 0;
-    margin: 0;
-  }
-
-body,
 html {
     height: 100%;
     width: 80%;
+    /*background-image: url('../image/fire.gif');*/
 }
 
 #wildfireHeatMaps,
