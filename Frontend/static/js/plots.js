@@ -1,4 +1,6 @@
 let wildfireApi = "http://127.0.0.1:5000/api/cawildfires17-20"
+let wildfireGeojson = "../Data/OutputData/CaliWildfires.geojson"
+//console.log(window.location.pathname);
 
 //console.log(new Date(Date.parse("2017-10-13")).toLocaleString())
 /*
@@ -18,6 +20,11 @@ let wildfireSeverity = L.map("wildfireSeverityMap", {
     zoom: 5.5,
     maxZoom: 30
 })
+let wildfireCause = L.map("wildfireCauseMap", {
+    center: [37, -119.42],
+    zoom: 5.5,
+    maxZoom: 30
+})
 
 function tile(map){
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -27,8 +34,10 @@ function tile(map){
 //tile(wildfireNumbers)
 tile(wildfireHeatMap)
 tile(wildfireSeverity)
+tile(wildfireCause)
 
 operation(wildfireApi)
+cholorplethOp(wildfireGeojson)
 
 let gWildfires = [];
 let gWildfiresGrp = L.layerGroup(gWildfires);
@@ -64,10 +73,10 @@ function operation(link) {d3.json(link).then(function(data){
 
         
         if (data[i].FIRE_SIZE_CLASS == "G"){
-            gWildfires.push(L.marker([lat, lon], {opacity: 0.8}).bindPopup(`${data[i].COUNTY}<hr>Burned: ${parseFloat(data[i].FIRE_SIZE)} acres<br>Severity: ${data[i].FIRE_SIZE_CLASS} (highest)<br>Wildfire: ${toTitleCase(data[i].FIRE_NAME)}`).addTo(wildfireSeverity))
+            gWildfires.push(L.marker([lat, lon], {opacity: 0.8}).bindPopup(`<h3>${data[i].COUNTY}</h3><hr>Burned: ${parseFloat(data[i].FIRE_SIZE)} acres<br>Severity: ${data[i].FIRE_SIZE_CLASS} (highest)<br>Wildfire: ${toTitleCase(data[i].FIRE_NAME)}`).addTo(wildfireSeverity))
         }
     }
-    console.log(data)
+    //console.log(data)
     //console.log(latArray)
     //console.log(newData)
 
@@ -110,83 +119,93 @@ function operation(link) {d3.json(link).then(function(data){
                 inactive: false
     }]
     }).addTo(wildfireSeverity)
-/*
-    severityHeat.on("mousemove", function(event) {
-        console.log(event.latlng.lat, data[index].LATITUDE)
-        for (j=0; j<latArray.length; j++){
-            let index = j
-                
-            if (data[j].LATITUDE.includes(event.latlng.lat) && data[j].LONGITUDE.includes(event.latlng.LON)){
-            }}})
-
-    wildfireSeverity.on("mousemove", function(event) {
-        
-        for (j=0; j<latArray.length; j++){
-            let index = j
-                //console.log(event.latlng.lat, data[index].LATITUDE)
-            if (data[j].LATITUDE.includes(event.latlng.lat) && data[j].LONGITUDE.includes(event.latlng.LON)){
-                
-                
-        
-        //if (event.latlng.lat == lat && event.latlng.lng == lon){
-            //console.log(event.latlng.lat)
-        const popupContent = `Severity: ${data[j].FIRE_SIZE_CLASS}<br>Longitude: ${data[j].COUNTY}`;
-        const popupOptions = {
-          closeButton: false,
-          autoClose: false,
-          closeOnClick: false,
-          className: "map-popup"
-        };
-        const popup = L.popup(popupOptions).setLatLng(event.latlng).setContent(popupContent);
-      
-        // Open the popup at the mouse location
-        popup.openOn(wildfireSeverity);}
-    }}
-      );
-      
-      wildfireSeverity.on("mouseout", function() {
-        // Close the popup when the mouse moves out of the map
-        wildfireSeverity.closePopup();
-      });*/
-
-    /*
-    wildfireSeverity.on("mousemove", function(){
-
-    })*/
-
-    /*
-    const coordinatesElement = document.createElement('div');
-coordinatesElement.style.position = 'absolute';
-coordinatesElement.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
-coordinatesElement.style.padding = '5px';
-coordinatesElement.style.pointerEvents = 'none';
-document.body.appendChild(coordinatesElement);
-
-// Attach the 'mousemove' event listener to the map
-wildfireSeverity.addEventListener('mousemove', handleMouseMove);
-
-// Event listener callback function for 'mousemove'
-function handleMouseMove(event) {
-  // Retrieve the coordinates of the mouse pointer
-  const severity = event.data.FIRE_SIZE_CLASS;
-  const loc = event.data.COUNTY;
-  const latlng = event.latlng;
-  const lat = latlng.lat;
-  const lng = latlng.lng;
-
-  // Update the content of the coordinates element
-  coordinatesElement.textContent = `Severity: ${severity}<br> Location: ${loc}`;
-
-  // Update the position of the coordinates element to follow the mouse
-  const pixelCoords = wildfireSeverity.latLngToContainerPoint(latlng);
-  const offsetX = 10; // adjust the horizontal offset from the mouse pointer
-  const offsetY = -20; // adjust the vertical offset from the mouse pointer
-  coordinatesElement.style.left = `${pixelCoords.x + offsetX}px`;
-  coordinatesElement.style.top = `${pixelCoords.y + offsetY}px`;
-}*/
-   
 })};
 
+//choropleth maps
+function cholorplethOp(link){d3.json(link).then(function(data){
+    console.log(data)
+    let geojson = L.choropleth(data, {
+        valueProperty: 'HUMAN/NATURAL',
+        scale: ['FFEDA0', 'red'],
+        steps: 8,
+        mode: 'q', // q for quantile, e for equidistant, k for k-means
+        style: {
+          color: '#fff', // border color
+          weight: 2,
+          fillOpacity: 0.8,
+          dashArray: '3',
+        },
+        onEachFeature: function(feature, layer) {
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+            })
+          //layer.bindPopup(`<h3>${feature.properties.CountyName} County</h3><hr>Wildfires caused by human: ${feature.properties.CAUSED_BY_HUMAN}<br>Wildfires occurred natuarally: ${feature.properties.NATURAL_WILDFIRE}`)
+        }
+      }).addTo(wildfireCause)
+      //console.log(geojson)
+    
+    let legend = L.control({position: 'bottomleft'})
+    legend.onAdd = function () {
+        let div = L.DomUtil.create('div', 'info legend');
+        let limits = geojson.options.limits;
+        let colors = geojson.options.colors;
+        let labels = [];
+    
+        div.innerHTML = "<div class='legend-header'>% Human Caused Wildfires</div>" + 
+          '<div class="labels">' +
+            '<div class="min">Least</div>' +
+                '<div class="max">Most</div>' + 
+          '</div>' // Add min & max to the div's innerHTML attribute/property
+        
+        limits.forEach(function (limit, index) {
+          labels.push('<li style="background-color: ' + colors[index] + '"></li>')
+        })
+        div.innerHTML += '<ul>' + labels.join('') + '</ul>' // update div.innerHTML to include an unordered list (<ul>) of all items in labels[] with no space in between items (.join(""))
+        return div
+      }
+    legend.addTo(wildfireCause)
+    //console.log(div.innerHTML)
+
+    let info = L.control();
+
+    info.onAdd = function () {
+        this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+        this.update();
+        return this._div;
+    };
+
+    // method that we will use to update the control based on feature properties passed
+    info.update = function (props) {
+        this._div.innerHTML = (props ?
+            '<h3>' + props.CountyName + ' County</h3><hr>' +
+            'Wildfires caused by human: ' + props.CAUSED_BY_HUMAN + '<br />Wildfires occurred natuarally: ' + props.NATURAL_WILDFIRE
+        : '');
+    };
+
+    info.addTo(wildfireCause);
+    
+    //border functions
+    function highlightFeature(event) {
+        let layer = event.target;
+        layer.setStyle({
+            weight: 6,
+            color: '#b01f15',
+            dashArray: '',
+            fillOpacity: 0.7
+        });
+        layer.bringToFront();
+        info.update(layer.feature.properties);
+      }
+
+    function resetHighlight(event) {
+        geojson.resetStyle(event.target);
+        info.update();
+        isMouseOver = false;
+      }
+
+    }
+)}
 
 
 function toTitleCase(str) {
@@ -194,5 +213,4 @@ function toTitleCase(str) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
-
 
