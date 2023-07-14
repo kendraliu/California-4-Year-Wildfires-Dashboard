@@ -1,9 +1,9 @@
-const os = require('os');
+//const os = require('os');
 const { createEngine } = require('sqlalchemy');
 const pandas = require('pandas-js');
 const plotly = require('plotly.js-dist');
-const cwd = os.cwd();
-console.log(cwd);
+//const cwd = os.cwd();
+//console.log(cwd);
 const engine = createEngine('sqlite:///Backend/WildfiresDB.db');
 const wildfires_data = pandas.read_sql_table('fire_data', engine);
 const avg_wildfires_per_county = wildfires_data.groupby('COUNTY').size().mean();
