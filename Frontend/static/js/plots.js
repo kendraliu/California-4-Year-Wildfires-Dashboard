@@ -126,7 +126,7 @@ function cholorplethOp(link){d3.json(link).then(function(data){
     console.log(data)
     let geojson = L.choropleth(data, {
         valueProperty: 'HUMAN/NATURAL',
-        scale: ['white', 'red'], // chroma.js scale - include as many as you like
+        scale: ['yellow', 'maroon'], // chroma.js scale - include as many as you like
         steps: 5, // number of breaks or steps in range
         mode: 'q', // q for quantile, e for equidistant, k for k-means
         style: {
@@ -135,7 +135,7 @@ function cholorplethOp(link){d3.json(link).then(function(data){
           fillOpacity: 0.8
         },
         onEachFeature: function(feature, layer) {  //optional pop-up //the feature here is essential data.features.feature.properties.NAME
-          layer.bindPopup(`Wildfires caused by human: ${feature.properties.CAUSED_BY_HUMAN}`)
+          layer.bindPopup(`Wildfires caused by human: ${feature.properties.CAUSED_BY_HUMAN}<br>Wildfires occurred natuarally: ${feature.properties.NATURAL_WILDFIRE}`)
         }
       }).addTo(wildfireCause)
       //console.log(geojson) //the geojson, the whole thing, is the red gradient blocked map
@@ -148,11 +148,11 @@ function cholorplethOp(link){d3.json(link).then(function(data){
         let labels = [];
     
         div.innerHTML = "<div class='centered-text'>" +
-            "<p>Population with children<br/>aged 6-17</p>" + 
+            "<p>% Human Caused Wildfires</p>" + 
           "</div>" + 
           '<div class="labels">' +
-            '<div class="min">' + limits[0] + '</div>' +
-                '<div class="max">' + limits[limits.length - 1] + '</div>' + 
+            '<div class="min">Least</div>' +
+                '<div class="max">Most</div>' + 
           '</div>' // Add min & max to the div's innerHTML attribute/property
         
         limits.forEach(function (limit, index) {
