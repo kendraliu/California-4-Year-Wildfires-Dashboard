@@ -5,7 +5,6 @@
 
     <meta charset="UTF-8">
     <title>California Wildfires 2017-2020</title>
-    <link rel="icon" href="static/image/icon.png" type="image/png">
 
     <!-- D3 library -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -29,9 +28,6 @@
     <!--Leaflet chorolpleth plugin-->
      <script type="text/javascript" src="static/js/choropleth.js"></script>
     
-    <!-- Include Plotly library -->
-    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
     <!-- Our CSS -->
     <link rel="stylesheet" type="text/css" href="static/css/style.css">
 
@@ -40,32 +36,20 @@
   <body>
 
     <!--plots-->
-
-    <a href="./Severity.html">Test</a>
-    
-    <div class="container">
-        <h2>Numbers</h2>
-        <div id="wildfireHeatMaps"></div>
-    </div>
-    
     <div class="container">
         <h2>Severity</h2>
         <div id="wildfireSeverityMap"></div>
     </div>
     
-    <div class="container">
-        <h2>Cause</h2>
-        <div id="wildfireCauseMap"></div>
-    </div>
+   
 
-    <div id="barGraph"></div>
-
-    <!--plots JavaScript-->
     
-    <script type="text/javascript" src="static/js/plots.js"></script>
-    <script src="static/js/bargraph.js"></script>
+    
 
-    <!--test <h1> working</h1>-->
+    <!--plots.js-->
+    <script type="text/javascript" src="static/js/severity_plot.js"></script>
+
+    
 
   </body>
 </html>

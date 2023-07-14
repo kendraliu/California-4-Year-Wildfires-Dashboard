@@ -1,33 +1,53 @@
 body,
-.map-popup {
-    padding: 0;
-    margin: 0;
-  }
-  
-#wildfireNumbersPlot,
-body,
 html {
-    height: 50%;
-    width: 60%;
+    height: 100%;
+    width: 80%;
+    /*background-image: url('../image/fire.gif');*/
 }
 
 #wildfireHeatMaps,
-body,
-html {
-    height: 90%;
-    width: 80%;
+#wildfireSeverityMap, #wildfireCauseMap{
+    height: 700px;
+    width: 400px;
+    padding-left:200px;
+    margin-top: 0px;
+    margin-left: 50px;
 }
 
-#wildfireSeverityMap, #wildfireCauseMap{
-    height: 100%;
-    width: 100%;
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
 }
+
+.dashboard{
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    display: flex; 
+    flex-direction: column; 
+  }
+
+.row {
+    padding-left:200px;
+    display: flex; /*?*/
+    flex-wrap: wrap; /*?*/
+    flex-direction: row; /*?*/
+  }
+/*
+  .row > * {
+    flex: 1 0 0;
+    padding: 0 10px; 
+    box-sizing: border-box;
+  }
+  */
 
 .legend {
     color: #555;
     padding: 6px 8px;
-    font: 12px Arial, Helvetica, sans-serif;
-    font-weight: bold;
+    font: 12px "Gill Sans", sans-serif;
+    
     background: white;
     background: rgba(255,255,255,0.8);
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
@@ -52,6 +72,26 @@ html {
     float: right;
   }
   
-  h1 {
+  h1, .centered-text {
     text-align: center;
   }
+
+  .legend-header{
+    text-align: center;
+    font: 15px "Gill Sans", sans-serif;
+    color: #777;
+  }
+
+  .info {
+    padding: 2px 20px 15px;
+    font: 16px "Gill Sans", sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 10px;
+}
+
+.info h3 {
+    font: 20px Arial, Helvetica, sans-serif;
+    font-weight: bold
+}

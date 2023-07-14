@@ -73,7 +73,7 @@ function operation(link) {d3.json(link).then(function(data){
 
         
         if (data[i].FIRE_SIZE_CLASS == "G"){
-            gWildfires.push(L.marker([lat, lon], {opacity: 0.8}).bindPopup(`${data[i].COUNTY}<hr>Burned: ${parseFloat(data[i].FIRE_SIZE)} acres<br>Severity: ${data[i].FIRE_SIZE_CLASS} (highest)<br>Wildfire: ${toTitleCase(data[i].FIRE_NAME)}`).addTo(wildfireSeverity))
+            gWildfires.push(L.marker([lat, lon], {opacity: 0.8}).bindPopup(`<h3>${data[i].COUNTY}</h3><hr>Burned: ${parseFloat(data[i].FIRE_SIZE)} acres<br>Severity: ${data[i].FIRE_SIZE_CLASS} (highest)<br>Wildfire: ${toTitleCase(data[i].FIRE_NAME)}`).addTo(wildfireSeverity))
         }
     }
     //console.log(data)
@@ -121,35 +121,38 @@ function operation(link) {d3.json(link).then(function(data){
     }).addTo(wildfireSeverity)
 })};
 
-
+//choropleth maps
 function cholorplethOp(link){d3.json(link).then(function(data){
     console.log(data)
     let geojson = L.choropleth(data, {
         valueProperty: 'HUMAN/NATURAL',
-        scale: ['yellow', 'maroon'], // chroma.js scale - include as many as you like
-        steps: 5, // number of breaks or steps in range
+        scale: ['FFEDA0', 'red'],
+        steps: 8,
         mode: 'q', // q for quantile, e for equidistant, k for k-means
         style: {
           color: '#fff', // border color
           weight: 2,
-          fillOpacity: 0.8
+          fillOpacity: 0.8,
+          dashArray: '3',
         },
-        onEachFeature: function(feature, layer) {  //optional pop-up //the feature here is essential data.features.feature.properties.NAME
-          layer.bindPopup(`Wildfires caused by human: ${feature.properties.CAUSED_BY_HUMAN}<br>Wildfires occurred natuarally: ${feature.properties.NATURAL_WILDFIRE}`)
+        onEachFeature: function(feature, layer) {
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+            })
+          //layer.bindPopup(`<h3>${feature.properties.CountyName} County</h3><hr>Wildfires caused by human: ${feature.properties.CAUSED_BY_HUMAN}<br>Wildfires occurred natuarally: ${feature.properties.NATURAL_WILDFIRE}`)
         }
       }).addTo(wildfireCause)
-      //console.log(geojson) //the geojson, the whole thing, is the red gradient blocked map
+      //console.log(geojson)
     
-      let legend = L.control({position: 'bottomright'}) //create legend
-      legend.onAdd = function () { //this whole thing (ie. the function) is just an html string/code, = legend.onAdd // add it to the legend we created
+    let legend = L.control({position: 'bottomleft'})
+    legend.onAdd = function () {
         let div = L.DomUtil.create('div', 'info legend');
-        let limits = geojson.options.limits; //use properties of that colored map we created
+        let limits = geojson.options.limits;
         let colors = geojson.options.colors;
         let labels = [];
     
-        div.innerHTML = "<div class='centered-text'>" +
-            "<p>% Human Caused Wildfires</p>" + 
-          "</div>" + 
+        div.innerHTML = "<div class='legend-header'>% Human Caused Wildfires</div>" + 
           '<div class="labels">' +
             '<div class="min">Least</div>' +
                 '<div class="max">Most</div>' + 
@@ -160,9 +163,47 @@ function cholorplethOp(link){d3.json(link).then(function(data){
         })
         div.innerHTML += '<ul>' + labels.join('') + '</ul>' // update div.innerHTML to include an unordered list (<ul>) of all items in labels[] with no space in between items (.join(""))
         return div
+    }
+    legend.addTo(wildfireCause)
+    //console.log(div.innerHTML)
+
+    let info = L.control();
+
+    info.onAdd = function () {
+        this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+        this.update();
+        return this._div;
+    };
+
+    // method that we will use to update the control based on feature properties passed
+    info.update = function (props) {
+        this._div.innerHTML = (props ?
+            '<h3>' + props.CountyName + ' County</h3><hr>' +
+            'Wildfires caused by human: ' + props.CAUSED_BY_HUMAN + '<br />Wildfires occurred natuarally: ' + props.NATURAL_WILDFIRE
+        : '');
+    };
+
+    info.addTo(wildfireCause);
+    
+    //hovering events
+    function highlightFeature(event) {
+        let layer = event.target;
+        layer.setStyle({
+            weight: 6,
+            color: '#b01f15',
+            dashArray: '',
+            fillOpacity: 0.7
+        });
+        layer.bringToFront();
+        info.update(layer.feature.properties);
       }
-      legend.addTo(wildfireCause)
-      //console.log(div.innerHTML)
+
+    function resetHighlight(event) {
+        geojson.resetStyle(event.target);
+        info.update();
+        isMouseOver = false;
+      }
+
     }
 )}
 
@@ -172,5 +213,4 @@ function toTitleCase(str) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
-
 
