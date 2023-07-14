@@ -126,8 +126,8 @@ function cholorplethOp(link){d3.json(link).then(function(data){
     console.log(data)
     let geojson = L.choropleth(data, {
         valueProperty: 'HUMAN/NATURAL',
-        scale: ['yellow', 'maroon'], // chroma.js scale - include as many as you like
-        steps: 5, // number of breaks or steps in range
+        scale: ['yellow', 'coral'], // chroma.js scale - include as many as you like
+        steps: 8, // number of breaks or steps in range
         mode: 'q', // q for quantile, e for equidistant, k for k-means
         style: {
           color: '#fff', // border color
@@ -135,7 +135,7 @@ function cholorplethOp(link){d3.json(link).then(function(data){
           fillOpacity: 0.8
         },
         onEachFeature: function(feature, layer) {  //optional pop-up //the feature here is essential data.features.feature.properties.NAME
-          layer.bindPopup(`Wildfires caused by human: ${feature.properties.CAUSED_BY_HUMAN}<br>Wildfires occurred natuarally: ${feature.properties.NATURAL_WILDFIRE}`)
+          layer.bindPopup(`<h3>${feature.properties.CountyName} County</h3>Wildfires caused by human: ${feature.properties.CAUSED_BY_HUMAN}<br>Wildfires occurred natuarally: ${feature.properties.NATURAL_WILDFIRE}`)
         }
       }).addTo(wildfireCause)
       //console.log(geojson) //the geojson, the whole thing, is the red gradient blocked map
