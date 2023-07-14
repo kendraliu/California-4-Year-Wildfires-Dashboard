@@ -26,8 +26,8 @@ html {
 .legend {
     color: #555;
     padding: 6px 8px;
-    font: 12px Arial, Helvetica, sans-serif;
-    font-weight: bold;
+    font: 12px "Gill Sans", sans-serif;
+    
     background: white;
     background: rgba(255,255,255,0.8);
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
@@ -52,6 +52,26 @@ html {
     float: right;
   }
   
-  h1 {
+  h1, .centered-text {
     text-align: center;
   }
+
+  .legend-header{
+    text-align: center;
+    font: 15px "Gill Sans", sans-serif;
+    color: #777;
+  }
+
+  .info {
+    padding: 2px 20px 15px;
+    font: 16px "Gill Sans", sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 10px;
+}
+
+.info h3 {
+    font: 20px Arial, Helvetica, sans-serif;
+    font-weight: bold
+}
