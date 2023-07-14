@@ -163,7 +163,7 @@ function cholorplethOp(link){d3.json(link).then(function(data){
         })
         div.innerHTML += '<ul>' + labels.join('') + '</ul>' // update div.innerHTML to include an unordered list (<ul>) of all items in labels[] with no space in between items (.join(""))
         return div
-      }
+    }
     legend.addTo(wildfireCause)
     //console.log(div.innerHTML)
 
@@ -185,7 +185,7 @@ function cholorplethOp(link){d3.json(link).then(function(data){
 
     info.addTo(wildfireCause);
     
-    //border functions
+    //hovering events
     function highlightFeature(event) {
         let layer = event.target;
         layer.setStyle({
