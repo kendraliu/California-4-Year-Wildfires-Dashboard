@@ -10,7 +10,7 @@ html {
 #wildfireHeatMaps, 
 #wildfireSeverityMap, #wildfireCauseMap{
     height: 700px;
-    width: 700px;
+    width: 600px;
     padding-left:200px;
     margin-top: 0px;
     margin-left: 50px;
@@ -18,17 +18,10 @@ html {
 }
 
 #barGraph{
-    height: 700px;
-    width: 1400px;
-    padding-left:50px;
-    margin-bottom: 150px;
+    height: 300px;
+    width: 600px;
+    margin-bottom: 100px;
     margin-left: 50px;
-}
-
-.containerBar {
-    display: flex;
-    justify-content: center; /*left*/
-    align-items: center;
 }
 
 .wrapper {

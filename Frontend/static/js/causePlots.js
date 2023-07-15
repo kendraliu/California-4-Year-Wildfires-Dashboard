@@ -26,96 +26,14 @@ function tile(map){
 tile(wildfireCause)
 
 //operation(wildfireApi)
-cholorplethOp(wildfireGeojson)
+cholorplethOp(wildfireGeojson, wildfireCause)
 
-let gWildfires = [];
-let gWildfiresGrp = L.layerGroup(gWildfires);
-/*
-function operation(link) {d3.json(link).then(function(data){
-    let newData = [];
-    let markersNumbers = L.markerClusterGroup();
-    let markersHeatMap = L.markerClusterGroup();
-    let heatArrayNumbers = []
-    let heatArraySeverity = []
-    latArray = []
-    lonArray = []
-    for(let i = 0; i < data.length; i++) {
-        //convert dates
-        let oldRecord = data[i];
-        //console.log(oldRecord["DISCOVERY_DATE"].slice(0, 4) - oldRecord["DISCOVERY_DATE"].slice(4, 6)-oldRecord["DISCOVERY_DATE"].slice(6, 8))
-        oldRecord["DISCOVERY_DATE_FORMATTED"] = new Date(Date.parse(`${oldRecord["DISCOVERY_DATE"].slice(0, 4)}- ${oldRecord["DISCOVERY_DATE"].slice(4, 6)}-${oldRecord["DISCOVERY_DATE"].slice(6, 8)}`))
-        oldRecord["CONTAIN_DATE_FORMATTED"] = new Date(Date.parse(`${oldRecord["CONTAIN_DATE"].slice(0, 4)}- ${oldRecord["CONTAIN_DATE"].slice(4, 6)}-${oldRecord["CONTAIN_DATE"].slice(6, 8)}`))
-        newData.push(oldRecord);
-
-        //markers
-        let lat = data[i].LATITUDE;
-        let lon = data[i].LONGITUDE;
-        latArray.push(data[i].LATITUDE)
-        lonArray.push(data[i].LONGITUDE)
-        //console.log(lat, lon, data[i].FIRE_NAME)
-        markersNumbers.addLayer(L.marker([lat, lon]).bindPopup(data[i].FIRE_NAME));
-        markersHeatMap.addLayer(L.marker([lat, lon]).bindPopup(data[i].FIRE_NAME));
-
-        //heat maps
-        heatArrayNumbers.push([data[i].LATITUDE, data[i].LONGITUDE, data[i].FREQUENCY]);
-        heatArraySeverity.push([data[i].LATITUDE, data[i].LONGITUDE, data[i].FIRE_SIZE]);
-
-        
-        if (data[i].FIRE_SIZE_CLASS == "G"){
-            gWildfires.push(L.marker([lat, lon], {opacity: 0.8}).bindPopup(`<h3>${data[i].COUNTY}</h3><hr>Burned: ${parseFloat(data[i].FIRE_SIZE)} acres<br>Severity: ${data[i].FIRE_SIZE_CLASS} (highest)<br>Wildfire: ${toTitleCase(data[i].FIRE_NAME)}`).addTo(wildfireSeverity))
-        }
-    }
-    //console.log(data)
-    //console.log(latArray)
-    //console.log(newData)
-
-    //add to map
-    
-    //wildfireNumbers.addLayer(markersNumbers);
-    L.heatLayer(heatArrayNumbers, {
-        radius: 6,
-        blur: 1,
-        //gradient: { 0.1: 'blue', 0.2: 'lime', 0.5: 'red' },
-        minOpacity: 0.25
-    }).addTo(wildfireHeatMap);
-    L.heatLayer(heatArraySeverity, {
-        radius: 10,
-        blur: 1,
-        //gradient: { 0.1: 'blue', 10: 'lime', 500: 'red' },
-        minOpacity: 0.25,
-        max: 0
-    }).addTo(wildfireSeverity);
-    
-    //let heatOverLyr = {Numbers: markersHeatMap}
-    //L.control.layers(null, heatOverLyr).addTo(wildfireHeatMap)
-    L.control.Legend({
-        title: "Display",
-        position: "topright",
-        opacity: 0.5,
-        legends: [{label: "Numbers", layers: markersHeatMap,
-                type: "image",
-                url: "static/image/markerclusterLegend.png",
-                inactive: true
-    }]
-    }).addTo(wildfireHeatMap)
-    L.control.Legend({
-        title: "Display",
-        position: "topright",
-        opacity: 0.5,
-        legends: [{label: "G class wildfires", layers: gWildfires,
-                type: "image",
-                url: "static/image/fireIcon.svg",
-                inactive: false
-    }]
-    }).addTo(wildfireSeverity)
-})};
-*/
 //choropleth maps
-function cholorplethOp(link){d3.json(link).then(function(data){
+function cholorplethOp(link, map){d3.json(link).then(function(data){
     console.log(data)
     let geojson = L.choropleth(data, {
         valueProperty: 'HUMAN/NATURAL',
-        scale: ['FFEDA0', 'red'],
+        scale: ['F2F322', 'D25170', '120789'],
         steps: 8,
         mode: 'q', // q for quantile, e for equidistant, k for k-means
         style: {
@@ -131,7 +49,7 @@ function cholorplethOp(link){d3.json(link).then(function(data){
             })
           //layer.bindPopup(`<h3>${feature.properties.CountyName} County</h3><hr>Wildfires caused by human: ${feature.properties.CAUSED_BY_HUMAN}<br>Wildfires occurred natuarally: ${feature.properties.NATURAL_WILDFIRE}`)
         }
-      }).addTo(wildfireCause)
+      }).addTo(map)
       //console.log(geojson)
     
     let legend = L.control({position: 'bottomleft'})
@@ -153,9 +71,11 @@ function cholorplethOp(link){d3.json(link).then(function(data){
         div.innerHTML += '<ul>' + labels.join('') + '</ul>' 
         return div
     }
-    legend.addTo(wildfireCause)
+    legend.addTo(map)
     //console.log(div.innerHTML)
 
+
+    //hovering over contents
     let info = L.control();
 
     info.onAdd = function () {
@@ -168,10 +88,10 @@ function cholorplethOp(link){d3.json(link).then(function(data){
         this._div.innerHTML = (props ?
             '<h3>' + props.CountyName + ' County</h3><hr>' +
             'Wildfires caused by human: ' + props.CAUSED_BY_HUMAN + '<br />Wildfires occurred natuarally: ' + props.NATURAL_WILDFIRE
-        : '<img src="static/image/icon.png" style="width: 30px; height: 30px;"">');
+        : '<img src="static/image/icon.png" style="width: 30px; height: 30px;"">' + "   Caused by humans?");
     };
 
-    info.addTo(wildfireCause);
+    info.addTo(map);
     
     //hovering events
     function highlightFeature(event) {
@@ -189,7 +109,6 @@ function cholorplethOp(link){d3.json(link).then(function(data){
     function resetHighlight(event) {
         geojson.resetStyle(event.target);
         info.update();
-        isMouseOver = false;
       }
 
     }
