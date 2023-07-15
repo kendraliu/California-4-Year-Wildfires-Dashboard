@@ -69,7 +69,7 @@ fetch('http://127.0.0.1:5000/api/cawildfires17-20')
   .catch(error => console.error(error));
 
     
-  
+  let wildfireGeojson = "../../Data/OutputData/CaliWildfires.geojson"
   d3.json(wildfireGeojson).then(function(data){
     console.log(data)
   })
