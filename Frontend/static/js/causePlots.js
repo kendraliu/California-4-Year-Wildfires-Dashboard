@@ -10,39 +10,27 @@ let wildfireNumbers = L.map("wildfireNumbersPlot", {
     maxZoom: 30
     //layer: layer(heatgroup)
 });*/
-let wildfireHeatMap = L.map("wildfireHeatMaps", {
-    center: [37, -119.42],
-    zoom: 5.5,
-    maxZoom: 30
-})
-/*
-let wildfireSeverity = L.map("wildfireSeverityMap", {
-    center: [37, -119.42],
-    zoom: 5.5,
-    maxZoom: 30
-})
+
 let wildfireCause = L.map("wildfireCauseMap", {
     center: [37, -119.42],
     zoom: 5.5,
     maxZoom: 30
-})*/
+})
 
 function tile(map){
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 }
-//tile(wildfireNumbers)
-tile(wildfireHeatMap)
-//tile(wildfireSeverity)
-//tile(wildfireCause)
 
-operation(wildfireApi)
-//cholorplethOp(wildfireGeojson)
+tile(wildfireCause)
+
+//operation(wildfireApi)
+cholorplethOp(wildfireGeojson)
 
 let gWildfires = [];
 let gWildfiresGrp = L.layerGroup(gWildfires);
-
+/*
 function operation(link) {d3.json(link).then(function(data){
     let newData = [];
     let markersNumbers = L.markerClusterGroup();
@@ -70,12 +58,12 @@ function operation(link) {d3.json(link).then(function(data){
 
         //heat maps
         heatArrayNumbers.push([data[i].LATITUDE, data[i].LONGITUDE, data[i].FREQUENCY]);
-        /*heatArraySeverity.push([data[i].LATITUDE, data[i].LONGITUDE, data[i].FIRE_SIZE]);
+        heatArraySeverity.push([data[i].LATITUDE, data[i].LONGITUDE, data[i].FIRE_SIZE]);
 
         
         if (data[i].FIRE_SIZE_CLASS == "G"){
             gWildfires.push(L.marker([lat, lon], {opacity: 0.8}).bindPopup(`<h3>${data[i].COUNTY}</h3><hr>Burned: ${parseFloat(data[i].FIRE_SIZE)} acres<br>Severity: ${data[i].FIRE_SIZE_CLASS} (highest)<br>Wildfire: ${toTitleCase(data[i].FIRE_NAME)}`).addTo(wildfireSeverity))
-        }*/
+        }
     }
     //console.log(data)
     //console.log(latArray)
@@ -90,13 +78,13 @@ function operation(link) {d3.json(link).then(function(data){
         //gradient: { 0.1: 'blue', 0.2: 'lime', 0.5: 'red' },
         minOpacity: 0.25
     }).addTo(wildfireHeatMap);
-    /*L.heatLayer(heatArraySeverity, {
+    L.heatLayer(heatArraySeverity, {
         radius: 10,
         blur: 1,
         //gradient: { 0.1: 'blue', 10: 'lime', 500: 'red' },
         minOpacity: 0.25,
         max: 0
-    }).addTo(wildfireSeverity);*/
+    }).addTo(wildfireSeverity);
     
     //let heatOverLyr = {Numbers: markersHeatMap}
     //L.control.layers(null, heatOverLyr).addTo(wildfireHeatMap)
@@ -110,7 +98,7 @@ function operation(link) {d3.json(link).then(function(data){
                 inactive: true
     }]
     }).addTo(wildfireHeatMap)
-    /*L.control.Legend({
+    L.control.Legend({
         title: "Display",
         position: "topright",
         opacity: 0.5,
@@ -119,9 +107,9 @@ function operation(link) {d3.json(link).then(function(data){
                 url: "static/image/fireIcon.svg",
                 inactive: false
     }]
-    }).addTo(wildfireSeverity)*/
+    }).addTo(wildfireSeverity)
 })};
-/*
+*/
 //choropleth maps
 function cholorplethOp(link){d3.json(link).then(function(data){
     console.log(data)
@@ -157,12 +145,12 @@ function cholorplethOp(link){d3.json(link).then(function(data){
           '<div class="labels">' +
             '<div class="min">Least</div>' +
                 '<div class="max">Most</div>' + 
-          '</div>' // Add min & max to the div's innerHTML attribute/property
+          '</div>' 
         
         limits.forEach(function (limit, index) {
           labels.push('<li style="background-color: ' + colors[index] + '"></li>')
         })
-        div.innerHTML += '<ul>' + labels.join('') + '</ul>' // update div.innerHTML to include an unordered list (<ul>) of all items in labels[] with no space in between items (.join(""))
+        div.innerHTML += '<ul>' + labels.join('') + '</ul>' 
         return div
     }
     legend.addTo(wildfireCause)
@@ -176,12 +164,11 @@ function cholorplethOp(link){d3.json(link).then(function(data){
         return this._div;
     };
 
-    // method that we will use to update the control based on feature properties passed
     info.update = function (props) {
         this._div.innerHTML = (props ?
             '<h3>' + props.CountyName + ' County</h3><hr>' +
             'Wildfires caused by human: ' + props.CAUSED_BY_HUMAN + '<br />Wildfires occurred natuarally: ' + props.NATURAL_WILDFIRE
-        : '');
+        : '<img src="static/image/icon.png" style="width: 30px; height: 30px;"">');
     };
 
     info.addTo(wildfireCause);
@@ -207,7 +194,7 @@ function cholorplethOp(link){d3.json(link).then(function(data){
 
     }
 )}
-*/
+
 
 function toTitleCase(str) {
     return str.replace(/\b\w+/g, function(txt) {

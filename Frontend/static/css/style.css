@@ -1,27 +1,72 @@
 body,
-.map-popup {
-    padding: 0;
-    margin: 0;
-  }
-  
-#wildfireNumbersPlot,
-body,
 html {
-    height: 50%;
-    width: 60%;
-}
-
-#wildfireHeatMaps,
-body,
-html {
-    height: 90%;
-    width: 80%;
-}
-
-#wildfireSeverityMap, #wildfireCauseMap{
     height: 100%;
     width: 100%;
+    background-image: url('../image/background.jpeg');
+    /*background-repeat: no-repeat;
+        background-size: cover;*/
 }
+
+#wildfireHeatMaps, 
+#wildfireSeverityMap, #wildfireCauseMap{
+    height: 700px;
+    width: 700px;
+    padding-left:200px;
+    margin-top: 0px;
+    margin-left: 50px;
+    align-items: center;
+}
+
+#barGraph{
+    height: 700px;
+    width: 1400px;
+    padding-left:50px;
+    margin-bottom: 150px;
+    margin-left: 50px;
+}
+
+.containerBar {
+    display: flex;
+    justify-content: center; /*left*/
+    align-items: center;
+}
+
+.wrapper {
+    position: relative;
+    height: 100%;  /* Adjust as needed */
+    width: 100%; /* Adjust as needed */
+    overflow-y: auto
+  }
+
+.container {
+    display: flex;
+    justify-content: center; /*left*/
+    align-items: center;
+    height: 100%;
+}
+
+
+.dashboard{
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    display: flex; 
+    flex-direction: column; 
+  }
+
+.row {
+    padding-left:200px;
+    display: flex; /*?*/
+    flex-wrap: wrap; /*?*/
+    flex-direction: row; /*?*/
+  }
+
+  .row > * {
+    flex: 1 0 0;
+    padding: 0 10px; 
+    box-sizing: border-box;
+  }
+  
 
 .legend {
     color: #555;
@@ -63,7 +108,7 @@ html {
   }
 
   .info {
-    padding: 2px 20px 15px;
+    padding: 15px 20px 15px;
     font: 16px "Gill Sans", sans-serif;
     background: white;
     background: rgba(255,255,255,0.8);
@@ -71,7 +116,13 @@ html {
     border-radius: 10px;
 }
 
-.info h3 {
-    font: 20px Arial, Helvetica, sans-serif;
+.info {
+    font: 12px Arial, Helvetica, sans-serif;
     font-weight: bold
+}
+
+h3 {
+    font: 16px Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    padding-left: 5px;
 }
