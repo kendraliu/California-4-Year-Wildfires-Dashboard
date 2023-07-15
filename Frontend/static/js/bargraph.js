@@ -28,9 +28,9 @@ function createBarGraph(years, numWildfires) {
       
       var years = data.map(row => row.FIRE_YEAR);
       var numWildfires = data.map(row => row.num_wildfires);
-      console.log(years)
-      console.log("this is num wildfires ")
-      console.log(numWildfires)
+      //console.log(years)
+      //console.log("this is num wildfires ")
+      //console.log(numWildfires)
       createBarGraph(years, numWildfires);
     })
     .catch(error => console.error(error));

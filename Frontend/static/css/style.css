@@ -2,7 +2,7 @@ body,
 html {
     height: 100%;
     width: 80%;
-    /*background-image: url('../image/fire.gif');*/
+    background-image: url('../image/fire.gif');
 }
 
 #wildfireHeatMaps,
@@ -14,12 +14,29 @@ html {
     margin-left: 50px;
 }
 
+.wrapper {
+    position: relative;
+    height: 80vh; /* Adjust as needed */
+    width: 100%; /* Adjust as needed */
+  }
+
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80%;
+    height: 100%;
 }
+
+.wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.3); /* Adjust the opacity as needed */
+    z-index: 0;
+  }
 
 .dashboard{
     position: relative;
