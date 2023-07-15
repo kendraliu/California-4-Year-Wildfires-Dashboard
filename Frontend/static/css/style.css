@@ -10,7 +10,7 @@ html {
 #wildfireHeatMaps, 
 #wildfireSeverityMap, #wildfireCauseMap{
     height: 700px;
-    width: 400px;
+    width: 700px;
     padding-left:200px;
     margin-top: 0px;
     margin-left: 50px;
@@ -108,7 +108,7 @@ html {
   }
 
   .info {
-    padding: 2px 20px 15px;
+    padding: 15px 20px 15px;
     font: 16px "Gill Sans", sans-serif;
     background: white;
     background: rgba(255,255,255,0.8);
@@ -116,7 +116,13 @@ html {
     border-radius: 10px;
 }
 
-.info h3 {
-    font: 20px Arial, Helvetica, sans-serif;
+.info {
+    font: 12px Arial, Helvetica, sans-serif;
     font-weight: bold
+}
+
+h3 {
+    font: 16px Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    padding-left: 5px;
 }

@@ -44,33 +44,29 @@
   
   <body>
     <nav class="navbar bg-body-tertiary fixed-top" data-bs-theme="dark" >
-      <a class="navbar-brand">
-        <img src="static/image/icon.png" width="25" height="25" class="d-inline-block align-text-top">
-        Wildfire Causes
-      </a>
-      
-        <a class="nav-link active me-auto" aria-current="page" href="./index.html" style="color: rgb(96, 96, 96);">Numbers</a>
-        <a class="nav-link me-auto" aria-current="page" href="./Severity.html" style="color: white;">Severity</a>
-        <a class="nav-link me-auto" aria-current="page" href="./cause.html" style="color: white;">Causes</a>
-    
+          <a class="navbar-brand">
+            <img src="static/image/icon.png" width="25" height="25" class="d-inline-block align-text-top">
+            Wildfire Causes
+          </a>
+          
+            <a class="nav-link me-auto" aria-current="page" href="./index.html" style="color: white;">Numbers</a>
+            <a class="nav-link me-auto" aria-current="page" href="./Severity.html" style="color: white;">Severity</a>
+            <a class="nav-link active me-auto" aria-current="page" href="#" style="color: rgb(96, 96, 96);">Causes</a>
+        
+        
     </nav>
-
+    
     <!--plots-->
     <div class="wrapper">
-      <a href="./severity.html">Test</a>
       <div class="container">
-          
-          <div id="wildfireHeatMaps"></div>
+          <div id="wildfireCauseMap"></div>
       </div>
-  
-      <div class=""></div>
-          <div id="barGraph"></div>
-      </div>
-  </div>
+      
+    </div>
     <!--plots JavaScript-->
     
-    <script type="text/javascript" src="static/js/plots.js"></script>
-    <script src="static/js/bargraph.js"></script>
+    <script type="text/javascript" src="static/js/causePlots.js"></script>
+    
 
     <!--test <h1> working</h1>-->
 
