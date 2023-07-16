@@ -1,71 +1,42 @@
 <!DOCTYPE html>
-<html lang="en-us">
-
+<html lang=“en-us”>
   <head>
-
-    <meta charset="UTF-8">
+    <meta charset=“UTF-8">
     <title>California Wildfires 2017-2020</title>
-    <link rel="icon" href="static/image/icon.png" type="image/png">
-    
+
     <!-- D3 library -->
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-
+    <script src=“https://d3js.org/d3.v5.min.js”></script>
     <!-- Leaflet code -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-
+    <script src=“https://unpkg.com/leaflet@1.9.4/dist/leaflet.js” integrity=“sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=” crossorigin=“”></script>
+    <link rel=“stylesheet” href=“https://unpkg.com/leaflet@1.9.4/dist/leaflet.css” integrity=“sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=” crossorigin=“” />
     <!--Leaflet Marker cluster plugin-->
-    <script type="text/javascript" src="https://unpkg.com/leaflet.markercluster@1.0.3/dist/leaflet.markercluster.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.css">
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.Default.css">
-    
+    <script type=“text/javascript” src=“https://unpkg.com/leaflet.markercluster@1.0.3/dist/leaflet.markercluster.js”></script>
+    <link rel=“stylesheet” type=“text/css” href=“https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.css”>
+    <link rel=“stylesheet” type=“text/css” href=“https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.Default.css”>
     <!-- Leaflet heatmap plugin-->
-    <script type="text/javascript" src="static/js/leaflet-heat.js"></script>
-
+    <script type=“text/javascript” src=“static/js/leaflet-heat.js”></script>
     <!--Leaflet legend plugin-->
-    <link rel="stylesheet" href="static/css/leaflet.legend.css" />
-    <script type="text/javascript" src="static/js/leaflet.legend.js"></script>
-
+    <link rel=“stylesheet” href=“static/css/leaflet.legend.css” />
+    <script type=“text/javascript” src=“static/js/leaflet.legend.js”></script>
     <!--Leaflet chorolpleth plugin-->
      <script type="text/javascript" src="static/js/choropleth.js"></script>
     
-    <!-- Include Plotly library -->
-    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
     <!-- Our CSS -->
-    <link rel="stylesheet" type="text/css" href="static/css/style.css">
-
+    <link rel=“stylesheet” type=“text/css” href=“static/css/style.css”>
   </head>
-  
   <body>
-
     <!--plots-->
-
-    <a href="./Severity.html">Test</a>
-    
-    <div class="container">
-        <h2>Numbers</h2>
-        <div id="wildfireHeatMaps"></div>
-    </div>
-    
-    <div class="container">
-        <h2>Severity</h2>
-        <div id="wildfireSeverityMap"></div>
-    </div>
-    
-    <div class="container">
-        <h2>Cause</h2>
-        <div id="wildfireCauseMap"></div>
-    </div>
-
-    <div id="barGraph"></div>
+    <h2>Numbers</h2>
+    <div id="wildfireHeatMaps"></div>
+    <h2>Severity</h2>
+    <div id="wildfireSeverityMap"></div>
+    <h2>Cause</h2>
+    <div id="wildfireCauseMap"></div>
 
     <!--plots JavaScript-->
-    <script src="static/js/bargraph.js"></script>
-    <script type="text/javascript" src="static/js/plots.js"></script>
     
+    <script type="text/javascript" src="static/js/plots.js"></script>
 
     <!--test <h1> working</h1>-->
-
   </body>
 </html>
