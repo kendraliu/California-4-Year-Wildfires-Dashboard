@@ -1,15 +1,5 @@
 let wildfireApi = "http://127.0.0.1:5000/api/cawildfires17-20"
 let wildfireGeojson = "../Data/OutputData/CaliWildfires.geojson"
-//console.log(window.location.pathname);
-
-//console.log(new Date(Date.parse("2017-10-13")).toLocaleString())
-/*
-let wildfireNumbers = L.map("wildfireNumbersPlot", {
-    center: [37, -119.42],
-    zoom: 5.5, 
-    maxZoom: 30
-    //layer: layer(heatgroup)
-});*/
 
 let wildfireCause = L.map("wildfireCauseMap", {
     center: [37, -119.42],
@@ -35,7 +25,7 @@ function cholorplethOp(link, map){d3.json(link).then(function(data){
         valueProperty: 'HUMAN/NATURAL',
         scale: ['F2F322', 'D25170', '120789'],
         steps: 8,
-        mode: 'q', // q for quantile, e for equidistant, k for k-means
+        mode: 'q',
         style: {
           color: '#fff', // border color
           weight: 2,
@@ -72,14 +62,12 @@ function cholorplethOp(link, map){d3.json(link).then(function(data){
         return div
     }
     legend.addTo(map)
-    //console.log(div.innerHTML)
-
 
     //hovering over contents
     let info = L.control();
 
     info.onAdd = function () {
-        this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+        this._div = L.DomUtil.create('div', 'info');
         this.update();
         return this._div;
     };
@@ -113,7 +101,6 @@ function cholorplethOp(link, map){d3.json(link).then(function(data){
 
     }
 )}
-
 
 function toTitleCase(str) {
     return str.replace(/\b\w+/g, function(txt) {
