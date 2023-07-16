@@ -1,7 +1,5 @@
 let wildfireApi = "http://127.0.0.1:5000/api/cawildfires17-20"
 let wildfireGeojson = "../Data/OutputData/CaliWildfires.geojson"
-//console.log(window.location.pathname);
-
 
 let wildfireSeverity = L.map("wildfireSeverityMap", {
     center: [37, -119.42],
@@ -48,8 +46,7 @@ function operation(link) {d3.json(link).then(function(data){
         
         markersHeatMap.addLayer(L.marker([lat, lon]).bindPopup(data[i].FIRE_NAME));
 
-        //heat maps
-        //heatArrayNumbers.push([data[i].LATITUDE, data[i].LONGITUDE, data[i].FREQUENCY]);
+        //heat map
         heatArraySeverity.push([data[i].LATITUDE, data[i].LONGITUDE, data[i].FIRE_SIZE]);
 
         let awsomeMarkers = L.AwesomeMarkers.icon({
@@ -101,7 +98,7 @@ function cholorplethOp(link, map){d3.json(link).then(function(data){
         valueProperty: 'AVG_FIRE_SIZE',
         scale: ['F8E726', '22A087', '00224E'],
         steps: 8,
-        mode: 'q', // q for quantile, e for equidistant, k for k-means
+        mode: 'q',
         style: {
           color: '#fff', // border color
           weight: 2,
@@ -137,14 +134,12 @@ function cholorplethOp(link, map){d3.json(link).then(function(data){
         return div
     }
     legend.addTo(map)
-    //console.log(div.innerHTML)
-
 
     //hovering over contents
     let info = L.control();
 
     info.onAdd = function () {
-        this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+        this._div = L.DomUtil.create('div', 'info');
         this.update();
         return this._div;
     };
