@@ -2,7 +2,7 @@ let wildfireApi = "http://127.0.0.1:5000/api/cawildfires17-20"
 let wildfireGeojson = "../Data/OutputData/CaliWildfires.geojson"
 
 let wildfireCause = L.map("wildfireCauseMap", {
-    center: [37, -119.42],
+    center: [37, -118.3],
     zoom: 5.5,
     maxZoom: 30
 })
