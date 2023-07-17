@@ -57,7 +57,7 @@ function createBarGraph(data) {
     }
   };
 
-  Plotly.newPlot('barGraph', data, layout);
+  Plotly.newPlot('barGraphDetailed', data, layout);
 }
 
 // Fetch data from the API and create the bar graph

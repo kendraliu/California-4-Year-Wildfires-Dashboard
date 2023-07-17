@@ -4,7 +4,7 @@ function getMonthFromDiscoveryDate(discoveryDate) {
     return parseInt(month);
   }
   // Function to create the Plotly bar graph
-  function createBarGraph(months, numWildfire) {
+  function createBarGraph2(months, numWildfire) {
     var data = [{
       x: months,
       y: numWildfire,
@@ -37,6 +37,6 @@ function getMonthFromDiscoveryDate(discoveryDate) {
       });
       var months = Object.keys(monthData);
       var numWildfire = Object.values(monthData);
-      createBarGraph(months, numWildfire);
+      createBarGraph2(months, numWildfire);
     })
     .catch(error => console.error(error));
