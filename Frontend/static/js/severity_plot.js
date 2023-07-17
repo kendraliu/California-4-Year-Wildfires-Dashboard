@@ -50,8 +50,8 @@ function operation(link) {d3.json(link).then(function(data){
         heatArraySeverity.push([data[i].LATITUDE, data[i].LONGITUDE, data[i].FIRE_SIZE]);
 
         let awsomeMarkers = L.AwesomeMarkers.icon({
-            icon: "home",
-            iconColor: "black",
+            icon: "bi bi-fire",
+            //iconColor: "black",
             markerColor: "red",
             prefix: "glyphicon"
         })
@@ -67,11 +67,11 @@ function operation(link) {d3.json(link).then(function(data){
 
     //add heatmap to map
     let severityHeatmap = L.heatLayer(heatArraySeverity, {
-        radius: 10,
+        radius: 6,
         blur: 1,
         minOpacity: 0.25,
         max: 0
-    });
+    }).addTo(wildfireSeverity);
     
     //legend and layer controls
     L.control.Legend({
@@ -86,10 +86,47 @@ function operation(link) {d3.json(link).then(function(data){
     ]
     }).addTo(wildfireSeverity)
 
+    let heatLegend = L.control({position: 'bottomleft'})
+    heatLegend.onAdd = function () {
+        let div = L.DomUtil.create('div', 'info legend');
+        let limits = geojson.options.limits;
+        let colors = ["#8000ff", "#0080ff", "#00ffff", "#00ff80", "#80ff00", "#ffff00", "#ff8000", "#ff0000"];
+        let labels = [];
+    
+        div.innerHTML = "<div class='legend-header'>Wildfire Size Classification</div>" + 
+          '<div class="labels">' +
+            '<div class="min">' + "A class" + '</div>' +
+            '<div class="max">' + "G class" + '</div>' + 
+          '</div>' 
+
+        limits.forEach(function (limit, index) {
+            labels.push('<li style="background-color: ' + colors[index] + '"></li>')
+        })
+
+        div.innerHTML += '<ul>' + labels.join('') + '</ul>' 
+        return div
+    }
+    
+    heatLegend.addTo(wildfireSeverity)
+
     L.control.layers({
-        "Layer 1": severityHeatmap,
+        "Statewide": severityHeatmap,
         "By County": geojson
-      }, null, { collapsed: false }).addTo(wildfireSeverity);
+      }, null, {collapsed: false}).addTo(wildfireSeverity);
+    //console.log(legend)
+
+    wildfireSeverity.on("baselayerchange", function(event){
+        if (event.layer == severityHeatmap){
+            wildfireSeverity.removeControl(legend)
+            heatLegend.addTo(wildfireSeverity)
+        }
+        else if (event.layer == geojson){
+            legend.addTo(wildfireSeverity)
+            wildfireSeverity.removeControl(heatLegend)
+        }
+    })
+
+    
 })};
 
 function cholorplethOp(link, map){d3.json(link).then(function(data){
@@ -111,10 +148,10 @@ function cholorplethOp(link, map){d3.json(link).then(function(data){
                 mouseout: resetHighlight,
             })
         }
-      }).addTo(wildfireSeverity)
-      console.log(geojson)
+      })//.addTo(map)
+      //console.log(geojson)
     
-    let legend = L.control({position: 'bottomleft'})
+    legend = L.control({position: 'bottomleft'})
     legend.onAdd = function () {
         let div = L.DomUtil.create('div', 'info legend');
         let limits = geojson.options.limits;
@@ -133,7 +170,7 @@ function cholorplethOp(link, map){d3.json(link).then(function(data){
         div.innerHTML += '<ul>' + labels.join('') + '</ul>' 
         return div
     }
-    legend.addTo(map)
+    //legend.addTo(map)
 
     //hovering over contents
     let info = L.control();
@@ -170,7 +207,6 @@ function cholorplethOp(link, map){d3.json(link).then(function(data){
         geojson.resetStyle(event.target);
         info.update();
       }
-
     }
 )}
 

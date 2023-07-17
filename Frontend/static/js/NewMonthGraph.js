@@ -4,10 +4,10 @@ function getMonthFromDiscoveryDate(discoveryDate) {
     return parseInt(month);
   }
   // Function to create the Plotly bar graph
-  function createBarGraph(months, numWildfires) {
+  function createBarGraph(months, numWildfire) {
     var data = [{
       x: months,
-      y: numWildfires,
+      y: numWildfire,
       type: 'bar'
     }];
     var layout = {
@@ -19,7 +19,7 @@ function getMonthFromDiscoveryDate(discoveryDate) {
         title: 'Number of Wildfires'
       }
     };
-    Plotly.newPlot('barGraph', data, layout);
+    Plotly.newPlot('totalNumBarGraph', data, layout);
   }
   // Fetch data from the API and create the bar graph
   fetch('http://127.0.0.1:5000/api/cawildfires17-20')
@@ -36,7 +36,7 @@ function getMonthFromDiscoveryDate(discoveryDate) {
         }
       });
       var months = Object.keys(monthData);
-      var numWildfires = Object.values(monthData);
-      createBarGraph(months, numWildfires);
+      var numWildfire = Object.values(monthData);
+      createBarGraph(months, numWildfire);
     })
     .catch(error => console.error(error));

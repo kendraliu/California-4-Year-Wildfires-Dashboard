@@ -83,7 +83,7 @@ function operation(link) {d3.json(link).then(function(data){
     });
 
     L.control.Legend({
-        title: "Display",
+        title: "Stats",
         position: "topright",
         opacity: 0.5,
         legends: [{label: "Numbers", layers: markersHeatMap,
@@ -93,10 +93,43 @@ function operation(link) {d3.json(link).then(function(data){
     }]
     }).addTo(wildfireHeatMap)
 
+    let heatLegend = L.control({position: 'bottomleft'})
+    heatLegend.onAdd = function () {
+        let div = L.DomUtil.create('div', 'info legend');
+        let limits = geojson.options.limits;
+        let colors = ["#8000ff", "#0080ff", "#00ffff", "#00ff80", "#80ff00", "#ffff00", "#ff8000", "#ff0000"];
+        let labels = [];
+    
+        div.innerHTML = "<div class='legend-header'>Number of Wildfires</div>" + 
+          '<div class="labels">' +
+            '<div class="min">' + limits[0] + '</div>' +
+            '<div class="max">' + limits[limits.length - 1] + '</div>' + 
+          '</div>' 
+
+        limits.forEach(function (limit, index) {
+            labels.push('<li style="background-color: ' + colors[index] + '"></li>')
+        })
+
+        div.innerHTML += '<ul>' + labels.join('') + '</ul>' 
+        return div
+    }
+
     L.control.layers({
-        "Layer 1": numberHeatmap,
+        "Statewide": numberHeatmap,
         "By County": geojson
-      }, null, { collapsed: false }).addTo(wildfireHeatMap);
+      }, null, {collapsed: false}).addTo(wildfireHeatMap);
+
+      wildfireHeatMap.on("baselayerchange", function(event){
+        if (event.layer == numberHeatmap){
+          wildfireHeatMap.removeControl(legend)
+            heatLegend.addTo(wildfireHeatMap)
+            console.log("yes")
+        }
+        else if (event.layer == geojson){
+            legend.addTo(wildfireHeatMap)
+            wildfireHeatMap.removeControl(heatLegend)
+        }
+    })
 })};
 
 function cholorplethOp(link, map){d3.json(link).then(function(data){
@@ -122,7 +155,7 @@ function cholorplethOp(link, map){d3.json(link).then(function(data){
       }).addTo(wildfireHeatMap)
       console.log(geojson)
     
-    let legend = L.control({position: 'bottomleft'})
+    legend = L.control({position: 'bottomleft'})
     legend.onAdd = function () {
         let div = L.DomUtil.create('div', 'info legend');
         let limits = geojson.options.limits;

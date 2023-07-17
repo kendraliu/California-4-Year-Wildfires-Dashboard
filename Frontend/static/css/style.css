@@ -17,10 +17,14 @@ html {
     align-items: center;
 }
 
-#barGraph{
-    height: 300px;
-    width: 600px;
+#barGraph, #totalNumBarGraph{
+    height: 350px;
+    width: 700px;
     margin-bottom: 100px;
+    margin-left: 50px;
+}
+
+#pieChart{
     margin-left: 50px;
 }
 
