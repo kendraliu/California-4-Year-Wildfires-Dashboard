@@ -24,9 +24,6 @@ let gWildfiresGrp = L.layerGroup(gWildfires);
 
 function operation(link) {d3.json(link).then(function(data){
     let newData = [];
-    let markersHeatMap = L.markerClusterGroup();
-    //let heatArrayNumbers = []
-    let heatArraySeverity = []
     latArray = []
     lonArray = []
     for(let i = 0; i < data.length; i++) {
@@ -44,11 +41,6 @@ function operation(link) {d3.json(link).then(function(data){
         lonArray.push(data[i].LONGITUDE)
         //console.log(lat, lon, data[i].FIRE_NAME)
         
-        markersHeatMap.addLayer(L.marker([lat, lon]).bindPopup(data[i].FIRE_NAME));
-
-        //heat map
-        heatArraySeverity.push([data[i].LATITUDE, data[i].LONGITUDE, data[i].FIRE_SIZE]);
-
         let awsomeMarkers = L.AwesomeMarkers.icon({
             icon: "bi bi-fire",
             //iconColor: "black",
@@ -57,21 +49,12 @@ function operation(link) {d3.json(link).then(function(data){
         })
 
         if (data[i].FIRE_SIZE_CLASS == "G"){
-            //gWildfires.push(L.marker([lat, lon], {opacity: 0.8}).bindPopup(`<h3>${data[i].COUNTY}</h3><hr>Burned: ${parseFloat(data[i].FIRE_SIZE)} acres<br>Severity: ${data[i].FIRE_SIZE_CLASS} (highest)<br>Wildfire: ${toTitleCase(data[i].FIRE_NAME)}`))
             gWildfires.push(L.marker([lat, lon], {icon: awsomeMarkers}, {opacity: 0.8}).bindPopup(`<h3>${data[i].COUNTY}</h3><hr>Burned: ${parseFloat(data[i].FIRE_SIZE)} acres<br>Wildfire: ${toTitleCase(data[i].FIRE_NAME)}`))
         }
     }
     //console.log(data)
     //console.log(latArray)
     //console.log(newData)
-
-    //add heatmap to map
-    let severityHeatmap = L.heatLayer(heatArraySeverity, {
-        radius: 6,
-        blur: 1,
-        minOpacity: 0.25,
-        max: 0
-    }).addTo(wildfireSeverity);
     
     //legend and layer controls
     L.control.Legend({
@@ -85,48 +68,6 @@ function operation(link) {d3.json(link).then(function(data){
                 }
     ]
     }).addTo(wildfireSeverity)
-
-    let heatLegend = L.control({position: 'bottomleft'})
-    heatLegend.onAdd = function () {
-        let div = L.DomUtil.create('div', 'info legend');
-        let limits = geojson.options.limits;
-        let colors = ["#8000ff", "#0080ff", "#00ffff", "#00ff80", "#80ff00", "#ffff00", "#ff8000", "#ff0000"];
-        let labels = [];
-    
-        div.innerHTML = "<div class='legend-header'>Wildfire Size Classification</div>" + 
-          '<div class="labels">' +
-            '<div class="min">' + "A class" + '</div>' +
-            '<div class="max">' + "G class" + '</div>' + 
-          '</div>' 
-
-        limits.forEach(function (limit, index) {
-            labels.push('<li style="background-color: ' + colors[index] + '"></li>')
-        })
-
-        div.innerHTML += '<ul>' + labels.join('') + '</ul>' 
-        return div
-    }
-    
-    heatLegend.addTo(wildfireSeverity)
-
-    L.control.layers({
-        "Statewide": severityHeatmap,
-        "By County": geojson
-      }, null, {collapsed: false}).addTo(wildfireSeverity);
-    //console.log(legend)
-
-    wildfireSeverity.on("baselayerchange", function(event){
-        if (event.layer == severityHeatmap){
-            wildfireSeverity.removeControl(legend)
-            heatLegend.addTo(wildfireSeverity)
-        }
-        else if (event.layer == geojson){
-            legend.addTo(wildfireSeverity)
-            wildfireSeverity.removeControl(heatLegend)
-        }
-    })
-
-    
 })};
 
 function cholorplethOp(link, map){d3.json(link).then(function(data){
@@ -148,7 +89,7 @@ function cholorplethOp(link, map){d3.json(link).then(function(data){
                 mouseout: resetHighlight,
             })
         }
-      })//.addTo(map)
+      }).addTo(map)
       //console.log(geojson)
     
     legend = L.control({position: 'bottomleft'})
@@ -170,7 +111,7 @@ function cholorplethOp(link, map){d3.json(link).then(function(data){
         div.innerHTML += '<ul>' + labels.join('') + '</ul>' 
         return div
     }
-    //legend.addTo(map)
+    legend.addTo(map)
 
     //hovering over contents
     let info = L.control();
