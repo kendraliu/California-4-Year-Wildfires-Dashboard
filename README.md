@@ -7,6 +7,11 @@
 
 
 ## Technologies used
+### Backend
+* SQLite
+* SQL Alchemy
+* Flask
+* D3.js
 ### Frontend
 * Plotly
 * Bootstrap
