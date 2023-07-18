@@ -1,5 +1,5 @@
 let wildfireApi = "http://127.0.0.1:5000/api/cawildfires17-20"
-let wildfireGeojson = "../Data/OutputData/CaliWildfires.geojson"
+let wildfireGeojson = "https://gist.githubusercontent.com/kendraliu/dd030ccc2d3a7490085c5bedc7c904e5/raw/CaliWildfires.geojson"
 
 let wildfireSeverity = L.map("wildfireSeverityMap", {
     center: [37, -119.42],
@@ -24,9 +24,6 @@ let gWildfiresGrp = L.layerGroup(gWildfires);
 
 function operation(link) {d3.json(link).then(function(data){
     let newData = [];
-    let markersHeatMap = L.markerClusterGroup();
-    //let heatArrayNumbers = []
-    let heatArraySeverity = []
     latArray = []
     lonArray = []
     for(let i = 0; i < data.length; i++) {
@@ -44,34 +41,20 @@ function operation(link) {d3.json(link).then(function(data){
         lonArray.push(data[i].LONGITUDE)
         //console.log(lat, lon, data[i].FIRE_NAME)
         
-        markersHeatMap.addLayer(L.marker([lat, lon]).bindPopup(data[i].FIRE_NAME));
-
-        //heat map
-        heatArraySeverity.push([data[i].LATITUDE, data[i].LONGITUDE, data[i].FIRE_SIZE]);
-
         let awsomeMarkers = L.AwesomeMarkers.icon({
-            icon: "home",
-            iconColor: "black",
+            icon: "bi bi-fire",
+            //iconColor: "black",
             markerColor: "red",
             prefix: "glyphicon"
         })
 
         if (data[i].FIRE_SIZE_CLASS == "G"){
-            //gWildfires.push(L.marker([lat, lon], {opacity: 0.8}).bindPopup(`<h3>${data[i].COUNTY}</h3><hr>Burned: ${parseFloat(data[i].FIRE_SIZE)} acres<br>Severity: ${data[i].FIRE_SIZE_CLASS} (highest)<br>Wildfire: ${toTitleCase(data[i].FIRE_NAME)}`))
             gWildfires.push(L.marker([lat, lon], {icon: awsomeMarkers}, {opacity: 0.8}).bindPopup(`<h3>${data[i].COUNTY}</h3><hr>Burned: ${parseFloat(data[i].FIRE_SIZE)} acres<br>Wildfire: ${toTitleCase(data[i].FIRE_NAME)}`))
         }
     }
     //console.log(data)
     //console.log(latArray)
     //console.log(newData)
-
-    //add heatmap to map
-    let severityHeatmap = L.heatLayer(heatArraySeverity, {
-        radius: 10,
-        blur: 1,
-        minOpacity: 0.25,
-        max: 0
-    });
     
     //legend and layer controls
     L.control.Legend({
@@ -85,11 +68,6 @@ function operation(link) {d3.json(link).then(function(data){
                 }
     ]
     }).addTo(wildfireSeverity)
-
-    L.control.layers({
-        "Layer 1": severityHeatmap,
-        "By County": geojson
-      }, null, { collapsed: false }).addTo(wildfireSeverity);
 })};
 
 function cholorplethOp(link, map){d3.json(link).then(function(data){
@@ -111,10 +89,10 @@ function cholorplethOp(link, map){d3.json(link).then(function(data){
                 mouseout: resetHighlight,
             })
         }
-      }).addTo(wildfireSeverity)
-      console.log(geojson)
+      }).addTo(map)
+      //console.log(geojson)
     
-    let legend = L.control({position: 'bottomleft'})
+    legend = L.control({position: 'bottomleft'})
     legend.onAdd = function () {
         let div = L.DomUtil.create('div', 'info legend');
         let limits = geojson.options.limits;
@@ -170,7 +148,6 @@ function cholorplethOp(link, map){d3.json(link).then(function(data){
         geojson.resetStyle(event.target);
         info.update();
       }
-
     }
 )}
 

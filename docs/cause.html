@@ -43,6 +43,7 @@
   </head>
   
   <body>
+    <!--navigation bar-->
     <nav class="navbar bg-body-tertiary fixed-top" data-bs-theme="dark" >
           <a class="navbar-brand">
             <img src="static/image/icon.png" width="25" height="25" class="d-inline-block align-text-top">
@@ -51,7 +52,7 @@
           <ul class="nav">
             <a class="nav-link me-auto" aria-current="page" href="./index.html" style="color: white;">Numbers</a>
             <a class="nav-link me-auto" aria-current="page" href="./Severity.html" style="color: white;">Severity</a>
-            <a class="nav-link active me-auto" aria-current="page" href="#" style="color: rgb(96, 96, 96);">Causes</a>
+            <a class="nav-link active me-auto" aria-current="page" href="./cause.html" style="color: rgb(96, 96, 96);">Causes</a>
           </ul>
     </nav>
     
@@ -59,12 +60,13 @@
     <div class="wrapper">
       <div class="container">
           <div id="wildfireCauseMap"></div>
+          <div id="pieChart"></div>
       </div>
-      
     </div>
     
-    <!--plots JavaScript-->
+    <!--plot JavaScript-->
     <script type="text/javascript" src="static/js/causePlots.js"></script>
+    <script src="static/js/causeChart.js"></script>
 
   </body>
 </html>

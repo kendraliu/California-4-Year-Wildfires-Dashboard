@@ -3,24 +3,41 @@ html {
     height: 100%;
     width: 100%;
     background-image: url('../image/background.jpeg');
-    /*background-repeat: no-repeat;
-        background-size: cover;*/
+    background-repeat: no-repeat;
+        background-size: cover;
 }
 
 #wildfireHeatMaps, 
 #wildfireSeverityMap, #wildfireCauseMap{
     height: 700px;
     width: 600px;
-    padding-left:200px;
     margin-top: 0px;
     margin-left: 50px;
     align-items: center;
 }
 
 #barGraph{
-    height: 300px;
-    width: 600px;
+    height: 350px;
+    width: 800px;
     margin-bottom: 100px;
+    margin-left: 50px;
+}
+
+#barGraphDetailed{
+    height: 500px;
+    width: 1300px;
+    margin-bottom: 100px;
+    margin-left: 100px;
+}
+
+#totalNumBarGraph{
+    height: 350px;
+    width: 700px;
+    margin-bottom: 100px;
+    margin-left: 50px;
+}
+
+#pieChart{
     margin-left: 50px;
 }
 

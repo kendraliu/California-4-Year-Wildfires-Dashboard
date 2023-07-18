@@ -43,6 +43,7 @@
   </head>
   
   <body>
+    <!--navigation bar-->
     <nav class="navbar bg-body-tertiary fixed-top" data-bs-theme="dark" >
       <a class="navbar-brand">
         <img src="static/image/icon.png" width="25" height="25" class="d-inline-block align-text-top">
@@ -59,13 +60,14 @@
     <div class="wrapper">
       <div class="container">
           <div id="wildfireHeatMaps"></div>
-          <div id="barGraph"></div>
+          <div id="totalNumBarGraph"></div>
       </div>
+      <div id="barGraphDetailed"></div>
     </div>
     
-    <!--plots JavaScript-->
+    <!--plot JavaScript-->
     <script type="text/javascript" src="static/js/numberPlots.js"></script>
+    <script src="static/js/NewMonthGraph.js"></script>
     <script src="static/js/bargraph.js"></script>
-
   </body>
 </html>

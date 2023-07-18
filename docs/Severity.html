@@ -38,9 +38,13 @@
     <!-- Include Plotly library -->
     <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-    <!--Awesome Font Plugin-->
+    <!--Awesome Markers Plugin-->
     <link rel="stylesheet" href="static/css/leaflet.awesome-markers.css">
     <script src="static/js/leaflet.awesome-markers.js"></script>
+
+    <!--chroma.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.4.2/chroma.min.js"></script>
+
 
     <!-- Our CSS -->
     <link rel="stylesheet" type="text/css" href="static/css/style.css">
@@ -48,6 +52,7 @@
   </head>
   
   <body>
+    <!--navigation bar-->
     <nav class="navbar bg-body-tertiary fixed-top" data-bs-theme="dark" >
           <a class="navbar-brand">
             <img src="static/image/icon.png" width="25" height="25" class="d-inline-block align-text-top">
@@ -64,12 +69,13 @@
     <div class="wrapper">
       <div class="container">
           <div id="wildfireSeverityMap"></div>
+          <div id="barGraph"></div>
       </div>
     </div>
     
-    <!--plots JavaScript-->
+    <!--plot JavaScript-->
     <script type="text/javascript" src="static/js/severity_plot.js"></script>
-
+    <script src="static/js/miguelGraph.js"></script>
   </body>
 </html>
 
