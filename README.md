@@ -7,9 +7,9 @@ The wildfire data used for this project is sourced from the sixth edition of the
 
 ## Technologies utilized
 ### Backend
-* Python, SQL Alchemy, Flask
-* SQLite
-* D3.js
+* Python
+* SQLite, SQL Alchemy
+* D3.js, Flask
 ### Frontend
 * Plotly
 * Bootstrap
