@@ -1,5 +1,6 @@
 let wildfireApi = "http://127.0.0.1:5000/api/cawildfires17-20"
 let wildfireGeojson = "https://gist.githubusercontent.com/kendraliu/dd030ccc2d3a7490085c5bedc7c904e5/raw/CaliWildfires.geojson"
+
 //console.log(window.location.pathname);
 
 //console.log(new Date(Date.parse("2017-10-13")).toLocaleString())
