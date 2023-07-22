@@ -49,8 +49,9 @@ function operation(link) {d3.json(link).then(function(data){
         })
 
         if (data[i].FIRE_SIZE_CLASS == "G"){
-            gWildfires.push(L.marker([lat, lon], {icon: awsomeMarkers}, {opacity: 0.8}).bindPopup(`<h3>${data[i].COUNTY}</h3><hr>Burned: ${parseFloat(data[i].FIRE_SIZE)} acres<br>Wildfire: ${toTitleCase(data[i].FIRE_NAME)}`))
+            gWildfires.push(L.marker([lat, lon], {icon: awsomeMarkers}, {opacity: 0.8}).bindPopup(`<h3>${data[i].COUNTY}</h3><hr>Burned: ${parseFloat(data[i].FIRE_SIZE)} acres<br>Wildfire: ${toTitleCase(data[i].FIRE_NAME)}`).addTo(wildfireSeverity))
         }
+        gWildfires
     }
     //console.log(data)
     //console.log(latArray)
@@ -64,7 +65,7 @@ function operation(link) {d3.json(link).then(function(data){
         legends: [{label: "G class", layers: gWildfires,
                 type: "image",
                 url: "static/image/fire.svg",
-                inactive: true
+                inactive: false
                 }
     ]
     }).addTo(wildfireSeverity)
